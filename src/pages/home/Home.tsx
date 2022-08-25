@@ -1,10 +1,11 @@
 import React from "react";
 import {Navbar} from "../../components/Navbar/Navbar";
 import {Header} from "../../components/header/Header";
-
-import './Home.css';
 import {Featured} from "../../components/Featured/Featured";
 import {PropertyList} from "../../components/PropertyList/PropertyList";
+
+import './Home.css';
+import {FeaturedProperties} from "../../components/FeaturedProperties/FeaturedProperties";
 
 export const Home = () => {
     return (
@@ -15,6 +16,8 @@ export const Home = () => {
                 <Featured/>
                 <h1 className="homeTitle">Wyszukaj po rodzaju noclegu</h1>
                 <PropertyList/>
+                <h1 className="homeTitle">Goście uwielbiają</h1>
+                <FeaturedProperties/>
             </div>
         </div>
     );
