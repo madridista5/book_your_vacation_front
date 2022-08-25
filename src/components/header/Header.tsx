@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useState} from "react";
 import {DateRange, Range} from "react-date-range";
 import {format} from "date-fns";
+import {useNavigate} from "react-router-dom";
 
 import './Header.css';
 import 'react-date-range/dist/styles.css';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const Header = (props: Props) => {
+    const [destination, setDestination] = useState<string>('');
     const [date, setDate] = useState<Range[]>([{
         startDate: new Date(),
         endDate: new Date(),
@@ -26,6 +28,8 @@ export const Header = (props: Props) => {
         room: 1,
     });
 
+    const navigate = useNavigate();
+
     const handleOption = (type: 'adult' | 'children' | 'room', count: number) => {
         setOptions(prev => {
             return {
@@ -33,6 +37,12 @@ export const Header = (props: Props) => {
                 [type]: options[type] + count, // options[type] === options.adult
             }
         })
+    };
+
+    const handleSearch = () => {
+        navigate('/hotels', {
+            state: {destination, date, options}
+        });
     };
 
     return (
@@ -72,6 +82,7 @@ export const Header = (props: Props) => {
                                     type="text"
                                     placeholder="kierunek podróży"
                                     className="headerSearchInput"
+                                    onChange={e => setDestination(e.target.value)}
                                 />
                             </div>
                             <div className="headerSearchItem">
@@ -84,6 +95,7 @@ export const Header = (props: Props) => {
                                     onChange={item => setDate([item.selection])}
                                     moveRangeOnFirstSelection={false}
                                     ranges={date}
+                                    minDate={new Date()}
                                     className="date"
                                 />}
                             </div>
@@ -143,7 +155,7 @@ export const Header = (props: Props) => {
                                 </div>}
                             </div>
                             <div className="headerSearchItem">
-                                <button className="headerBtn">szukaj</button>
+                                <button className="headerBtn" onClick={handleSearch}>szukaj</button>
                             </div>
                         </div>
                     </>}
