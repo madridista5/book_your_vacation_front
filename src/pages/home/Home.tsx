@@ -4,6 +4,7 @@ import {Header} from "../../components/header/Header";
 
 import './Home.css';
 import {Featured} from "../../components/Featured/Featured";
+import {PropertyList} from "../../components/PropertyList/PropertyList";
 
 export const Home = () => {
     return (
@@ -12,6 +13,8 @@ export const Home = () => {
             <Header type=""/>
             <div className="homeContainer">
                 <Featured/>
+                <h1 className="homeTitle">Wyszukaj po rodzaju noclegu</h1>
+                <PropertyList/>
             </div>
         </div>
     );
