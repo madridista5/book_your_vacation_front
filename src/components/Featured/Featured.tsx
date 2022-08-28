@@ -3,6 +3,7 @@ import React from "react";
 import './Featured.css';
 
 export const Featured = () => {
+
     return (
         <div className="featured">
             <div className="featuredItem">
