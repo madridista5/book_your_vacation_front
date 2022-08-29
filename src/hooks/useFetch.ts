@@ -23,7 +23,7 @@ export const useFetch = (url: string) => {
             await fetchData();
         })();
 
-    }, [url]);
+    }, []);
 
     const reFetch = async () => {
         setLoading(true);

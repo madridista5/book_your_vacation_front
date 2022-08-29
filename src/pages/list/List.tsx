@@ -26,10 +26,16 @@ export const List = () => {
 
     const [destination, setDestination] = useState<string>(myState.destination);
     const [date, setDate] = useState<Range[]>(myState.date);
-    const [options, setOptions] = useState(myState.options);
     const [openDate, setOpenDate] = useState<boolean>(false);
+    const [options, setOptions] = useState(myState.options);
+    const [min, setMin] = useState<number | undefined>(undefined);
+    const [max, setMax] = useState<number | undefined>(undefined);
 
-    const {data, loading, error, reFetch} = useFetch(`${apiUrl}/hotels?city=${destination}`);
+    const {data, loading, error, reFetch} = useFetch(`${apiUrl}/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`);
+
+    const handleClick = async () => {
+        await reFetch();
+    };
 
     return (
         <div>
@@ -62,12 +68,12 @@ export const List = () => {
                             <div className="lsOptions">
                                 <div className="lsOptionItem">
                                     <span className="lsOptionText">Cena minimalna <small>za dobę</small></span>
-                                    <input type="number" className="lsOptionInput"/>
+                                    <input type="number" onChange={(e) => setMin(Number(e.target.value))} className="lsOptionInput"/>
                                 </div>
 
                                 <div className="lsOptionItem">
                                     <span className="lsOptionText">Cena maksymalna <small>za dobę</small></span>
-                                    <input type="number" className="lsOptionInput"/>
+                                    <input type="number" onChange={(e) => setMax(Number(e.target.value))} className="lsOptionInput"/>
                                 </div>
 
                                 <div className="lsOptionItem">
@@ -90,7 +96,7 @@ export const List = () => {
                             </div>
 
                         </div>
-                        <button>Search</button>
+                        <button onClick={handleClick}>Search</button>
                     </div>
                     <div className="listResult">
                         {loading
