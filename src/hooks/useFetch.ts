@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {HotelInfoResponse} from "../../types/HotelResponse";
 
 export const useFetch = (url: string) => {
-    const [data, setData] = useState<string[]>([]);
+    const [data, setData] = useState<(string | HotelInfoResponse)[]>(['']);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean | Error>(false);
 

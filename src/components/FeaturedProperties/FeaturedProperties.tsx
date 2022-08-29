@@ -5,7 +5,7 @@ import {apiUrl} from "../../config/api";
 import './FeaturedProperties.css';
 
 export const FeaturedProperties = () => {
-    const {data, loading} = useFetch(`${apiUrl}/hotels/countByType`);
+    const {data, loading} = useFetch(`${apiUrl}/hotels?`);
 
     return (
         <div className="fp">
@@ -54,5 +54,4 @@ export const FeaturedProperties = () => {
             </div>
         </div>
     );
-
 };

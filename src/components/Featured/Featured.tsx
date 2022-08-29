@@ -16,7 +16,7 @@ export const Featured = () => {
                 <img src={require('../../assets/paris.jpg')} alt="paris" className="featuredImg"/>
                 <div className="featuredTitles">
                     <h1>Paryż</h1>
-                    <h2>{data[0]} nieruchomości</h2>
+                    <h2>{String(data[0])} nieruchomości</h2>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@ export const Featured = () => {
                 <img src={require('../../assets/sevilla.jpg')} alt="sevilla" className="featuredImg"/>
                 <div className="featuredTitles">
                 <h1>Sevilla</h1>
-                <h2>{data[1]} nieruchomości</h2>
+                <h2>{String(data[1])} nieruchomości</h2>
                 </div>
                 </div>
 
@@ -32,7 +32,7 @@ export const Featured = () => {
                 <img src={require('../../assets/pisa.jpg')} alt="pisa" className="featuredImg"/>
                 <div className="featuredTitles">
                 <h1>Pisa</h1>
-                <h2>{data[2]} nieruchomości</h2>
+                <h2>{String(data[2])} nieruchomości</h2>
                 </div>
                 </div>
             </>}
