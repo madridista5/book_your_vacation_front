@@ -18,8 +18,8 @@ export const Home = () => {
                 <Featured/>
                 <h1 className="homeTitle">Wyszukaj po rodzaju noclegu</h1>
                 <PropertyList/>
-                <h1 className="homeTitle">Goście uwielbiają</h1>
-                <FeaturedProperties/>
+                {/*<h1 className="homeTitle">Goście uwielbiają</h1>*/}
+                {/*<FeaturedProperties/> */}
                 <MailList/>
                 <Footer/>
             </div>
