@@ -1,7 +1,7 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 import './SearchItem.css';
-import {Link} from "react-router-dom";
 
 interface Props {
     item: {
