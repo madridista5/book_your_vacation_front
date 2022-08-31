@@ -5,7 +5,7 @@ import {apiUrl} from "../../config/api";
 import './Featured.css';
 
 export const Featured = () => {
-    const {data, loading, error} = useFetch(`${apiUrl}/hotels/countByCity?cities=Paryz,Sevilla,Pisa`);
+    const {data, loading, error} = useFetch(`${apiUrl}/hotels/countByCity?cities=Paryż,Sevilla,Pisa`);
 
     return (
         <div className="featured">
