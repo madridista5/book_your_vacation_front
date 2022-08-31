@@ -1,6 +1,6 @@
 import {faBed, faCalendarDays, faCar, faPerson, faPlane, faTaxi} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {DateRange, Range} from "react-date-range";
 import {format} from "date-fns";
 import {useNavigate} from "react-router-dom";
@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import './Header.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import {SearchContext} from "../../context/search.context";
 
 interface Props {
     type: string,
@@ -20,15 +21,18 @@ export const Header = (props: Props) => {
         endDate: new Date(),
         key: 'selection',
     }]);
-    const [openDate, setOpenDate] = useState<boolean>(false);
-    const [openOptions, setOpenOptions] = useState<boolean>(false);
     const [options, setOptions] = useState({
         adult: 1,
         children: 0,
         room: 1,
     });
 
+    const [openDate, setOpenDate] = useState<boolean>(false);
+    const [openOptions, setOpenOptions] = useState<boolean>(false);
+
     const navigate = useNavigate();
+
+    const searchContext = useContext(SearchContext);
 
     const handleOption = (type: 'adult' | 'children' | 'room', count: number) => {
         setOptions(prev => {
@@ -40,6 +44,13 @@ export const Header = (props: Props) => {
     };
 
     const handleSearch = () => {
+        searchContext.city = destination;
+        if(typeof date[0].startDate !== 'undefined' && typeof date[0].endDate !== 'undefined') {
+            searchContext.dates[0].startDate = date[0].startDate;
+            searchContext.dates[0].endDate = date[0].endDate;
+        }
+        searchContext.options = options;
+
         navigate('/hotels', {
             state: {destination, date, options}
         });

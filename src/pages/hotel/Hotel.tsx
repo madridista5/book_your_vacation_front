@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Navbar} from "../../components/Navbar/Navbar";
 import {Header} from "../../components/header/Header";
@@ -9,6 +9,8 @@ import {useFetch} from "../../hooks/useFetch";
 import {apiUrl} from "../../config/api";
 import {useLocation} from "react-router-dom";
 import {HotelInfoResponse} from "../../../types/HotelResponse";
+import {SearchContext} from "../../context/search.context";
+import {dayDifference} from "../../utils/dayDifference";
 
 import './Hotel.css';
 
@@ -21,6 +23,7 @@ export const Hotel = () => {
     const [hotelInfo, setHotelInfo] = useState<HotelInfoResponse>();
 
     const {loading} = useFetch(`${apiUrl}/hotels/${hotelId}`);
+    const searchContext = useContext(SearchContext);
 
     useEffect(() => {
         (async () => {
@@ -30,42 +33,25 @@ export const Hotel = () => {
         })();
     }, []);
 
+    const days = dayDifference(searchContext.dates[0].startDate, searchContext.dates[0].endDate);
+
     const handleOpen = (index: number) => {
         setSlideNumber(index);
         setOpen(true);
     };
 
     const handleMove = (direction: 'L' | 'R') => {
-        let newSliderNumber;
+        if(hotelInfo !== undefined && hotelInfo.photos.length > 0) {
+            let newSliderNumber;
 
-        if(direction === 'L') {
-            newSliderNumber = slideNumber === 0 ? 5 : slideNumber-1;
-        } else {
-            newSliderNumber = slideNumber === 5 ? 0 : slideNumber+1;
+            if(direction === 'L') {
+                newSliderNumber = slideNumber === 0 ? hotelInfo.photos.length - 1 : slideNumber-1;
+            } else {
+                newSliderNumber = (slideNumber === hotelInfo.photos.length - 1) ? 0 : slideNumber+1;
+            }
+            setSlideNumber(newSliderNumber);
         }
-        setSlideNumber(newSliderNumber);
     }
-
-    // const photos = [
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2016/11/30/08/48/bedroom-1872196_960_720.jpg',
-    //     },
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_960_720.jpg',
-    //     },
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2017/08/27/10/16/interior-2685521_960_720.jpg',
-    //     },
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2014/08/11/21/40/bedroom-416062_960_720.jpg'
-    //     },
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2016/08/26/15/06/home-1622401_960_720.jpg'
-    //     },
-    //     {
-    //         src: 'https://cdn.pixabay.com/photo/2015/04/20/06/46/office-730681_960_720.jpg'
-    //     },
-    // ];
 
     return (
         <div>
@@ -120,11 +106,11 @@ export const Hotel = () => {
                                 <p className="hotelDesc">{hotelInfo.desc}</p>
                             </div>
                             <div className="hotelDetailsPrice">
-                                <h1>Idealny na 9 dniowy urlop</h1>
+                                <h1>Idealny na twój {days} dniowy urlop</h1>
                                 <span>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias, animi atque blanditiis doloremque optio porro possimus provident ut veritatis.
                             </span>
-                                <h2><b>3600 zł</b> za 9 dni</h2>
+                                <h2><b>{hotelInfo.cheapestPrice * days * searchContext.options.room} zł</b> za {days} dni</h2>
                                 <button>Zarezerwuj teraz</button>
                             </div>
                         </div>

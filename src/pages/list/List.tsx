@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Navbar} from "../../components/Navbar/Navbar";
 import {Header} from "../../components/header/Header";
 import {useLocation} from "react-router-dom";
@@ -9,6 +9,7 @@ import {useFetch} from "../../hooks/useFetch";
 import {apiUrl} from "../../config/api";
 
 import './List.css';
+import {SearchContext} from "../../context/search.context";
 
 interface StateLocation {
     destination: string,
@@ -26,10 +27,12 @@ export const List = () => {
 
     const [destination, setDestination] = useState<string>(myState.destination);
     const [date, setDate] = useState<Range[]>(myState.date);
-    const [openDate, setOpenDate] = useState<boolean>(false);
     const [options, setOptions] = useState(myState.options);
+    const [openDate, setOpenDate] = useState<boolean>(false);
     const [min, setMin] = useState<number | undefined>(undefined);
     const [max, setMax] = useState<number | undefined>(undefined);
+
+    const searchContext = useContext(SearchContext);
 
     const {
         data,
@@ -39,6 +42,12 @@ export const List = () => {
     } = useFetch(`${apiUrl}/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`);
 
     const handleClick = async () => {
+        searchContext.city = destination;
+        if(typeof date[0].startDate !== 'undefined' && typeof date[0].endDate !== 'undefined') {
+            searchContext.dates[0].startDate = date[0].startDate;
+            searchContext.dates[0].endDate = date[0].endDate;
+        }
+        searchContext.options = options;
         await reFetch();
     };
 
@@ -53,7 +62,7 @@ export const List = () => {
 
                         <div className="lsItem">
                             <label>Cel podróży</label>
-                            <input type="text" placeholder={destination}/>
+                            <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)}/>
                         </div>
 
                         <div className="lsItem">
