@@ -7,10 +7,12 @@ import {MailList} from "../../components/MailList/MailList";
 import {Footer} from "../../components/Footer/Footer";
 import {useFetch} from "../../hooks/useFetch";
 import {apiUrl} from "../../config/api";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {HotelInfoResponse} from "../../../types/HotelResponse";
 import {SearchContext} from "../../context/search.context";
 import {dayDifference} from "../../utils/dayDifference";
+import {AuthContext} from "../../context/auth.context";
+import {Reserve} from "../../components/Reserve/Reserve";
 
 import './Hotel.css';
 
@@ -20,10 +22,14 @@ export const Hotel = () => {
 
     const [slideNumber, setSlideNumber] = useState<number>(0);
     const [open, setOpen] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
     const [hotelInfo, setHotelInfo] = useState<HotelInfoResponse>();
 
     const {loading} = useFetch(`${apiUrl}/hotels/${hotelId}`);
     const searchContext = useContext(SearchContext);
+
+    const {user} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -52,6 +58,14 @@ export const Hotel = () => {
             setSlideNumber(newSliderNumber);
         }
     }
+
+    const handleClick = () => {
+        if(user._id !== '') {
+            setOpenModal(true);
+        } else {
+            navigate('/login');
+        }
+    };
 
     return (
         <div>
@@ -111,13 +125,14 @@ export const Hotel = () => {
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias, animi atque blanditiis doloremque optio porro possimus provident ut veritatis.
                             </span>
                                 <h2><b>{hotelInfo.cheapestPrice * days * searchContext.options.room} zł</b> za {days} dni</h2>
-                                <button>Zarezerwuj teraz</button>
+                                <button onClick={handleClick}>Zarezerwuj teraz</button>
                             </div>
                         </div>
                     </div>}
                 <MailList/>
                 <Footer/>
             </div>}
+            {openModal && <Reserve setOpen={setOpenModal} hotelId={hotelInfo?._id}/>}
         </div>
     );
 };
