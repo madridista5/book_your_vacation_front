@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './App';
-
+import {SearchContext} from "./context/search.context";
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
-import {SearchContext} from "./context/search.context";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

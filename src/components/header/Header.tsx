@@ -9,6 +9,7 @@ import './Header.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import {SearchContext} from "../../context/search.context";
+import {AuthContext} from "../../context/auth.context";
 
 interface Props {
     type: string,
@@ -33,6 +34,8 @@ export const Header = (props: Props) => {
     const navigate = useNavigate();
 
     const searchContext = useContext(SearchContext);
+
+    const {user} = useContext(AuthContext);
 
     const handleOption = (type: 'adult' | 'children' | 'room', count: number) => {
         setOptions(prev => {
@@ -85,7 +88,7 @@ export const Header = (props: Props) => {
                     <>
                         <h1 className="headerTitle">Rabat !</h1>
                         <p className="headerDesc">10% taniej z darmowym kontem aplikacji Booking Travel.</p>
-                        <button className="headerBtn">Logowanie / Rejestracja</button>
+                        {user._id === '' && <button className="headerBtn">Logowanie / Rejestracja</button>}
                         <div className="headerSearch">
                             <div className="headerSearchItem">
                                 <FontAwesomeIcon icon={faBed} className="headerIcon"/>

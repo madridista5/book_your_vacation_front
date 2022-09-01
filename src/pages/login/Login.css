@@ -1,0 +1,38 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-darkblue);
+}
+
+.lContainer {
+    background-color: var(--color-blue);
+    display: flex;
+    height: 40vh;
+    width: 30vh;
+    flex-direction: column;
+    border: 2px solid white;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.lInput, .lBtn {
+    width: 80%;
+    align-self: center;
+    margin: 4px 0;
+    font-size: 15px;
+    padding: 3px 0;
+}
+
+.lBtn {
+    border: none;
+    background-color: white;
+    color: var(--color-darkblue);
+    width: 40%;
+    transition: 0.2s;
+}
+
+.lBtn:hover {
+    cursor: pointer;
+}
