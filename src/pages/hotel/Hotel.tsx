@@ -94,7 +94,7 @@ export const Hotel = () => {
                     />
                 </div>}
                     {hotelInfo !== undefined && <div className="hotelWrapper">
-                        <button className="bookNow">Zarezerwuj teraz</button>
+                        <button className="bookNow" onClick={handleClick}>Zarezerwuj teraz</button>
                         <h1 className="hotelTitle">{hotelInfo.name}</h1>
                         <div className="hotelAddress">
                             <FontAwesomeIcon icon={faLocationDot}/>
